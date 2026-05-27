@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/product.dart';
 import '../providers/auth_provider.dart';
 import '../providers/product_provider.dart';
+import '../providers/theme_provider.dart';
 import '../screens/product_detail_screen.dart';
 import '../widgets/error_view.dart';
 import '../widgets/product_card.dart';
@@ -52,6 +53,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
             title: const Text('Shop Products'),
             actions: [
               IconButton(
+                icon: Icon(
+                  context.watch<ThemeProvider>().mode == ThemeMode.dark
+                      ? Icons.dark_mode
+                      : Icons.light_mode,
+                ),
+                onPressed: () async {
+                  await context.read<ThemeProvider>().toggleLightDark();
+                },
+              ),
+              IconButton(
                 icon: const Icon(Icons.logout_outlined),
                 onPressed: () async {
                   await authProvider.logout();
@@ -97,7 +108,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                         itemCount:
                             provider.products.length +
                             (provider.recentProducts.isNotEmpty ? 1 : 0),
-                        separatorBuilder: (_, index) => const SizedBox(height: 14),
+                        separatorBuilder: (_, index) =>
+                            const SizedBox(height: 14),
                         itemBuilder: (context, index) {
                           if (index == 0 &&
                               provider.recentProducts.isNotEmpty) {
@@ -117,7 +129,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
                                   child: ListView.separated(
                                     scrollDirection: Axis.horizontal,
                                     itemCount: provider.recentProducts.length,
-                                    separatorBuilder: (_, index) => const SizedBox(width: 12),
+                                    separatorBuilder: (_, index) =>
+                                        const SizedBox(width: 12),
                                     itemBuilder: (context, recentIndex) {
                                       final recent =
                                           provider.recentProducts[recentIndex];

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class LoadingButton extends StatelessWidget {
   final bool isLoading;
   final VoidCallback onPressed;
